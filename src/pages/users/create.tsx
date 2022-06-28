@@ -9,6 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
+import Link from "next/link";
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
@@ -45,9 +46,11 @@ const CreateUser: NextPage = () => (
 
         <Flex mt={[6, 8]} justify="flex-end">
           <HStack spacing={4}>
-            <Button type="button" colorScheme="whiteAlpha">
-              Cancelar
-            </Button>
+            <Link href="/users" passHref>
+              <Button type="button" colorScheme="whiteAlpha">
+                Cancelar
+              </Button>
+            </Link>
 
             <Button type="submit" colorScheme="pink">
               Salvar

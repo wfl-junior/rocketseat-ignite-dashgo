@@ -15,6 +15,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
+import Link from "next/link";
 import { Fragment } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../components/Header";
@@ -40,16 +41,18 @@ const Users: NextPage = () => {
               Usuários
             </Heading>
 
-            <Button
-              as="a"
-              href="#"
-              size="sm"
-              fontSize={["xs", "sm"]}
-              colorScheme="pink"
-              leftIcon={<Icon as={RiAddLine} fontSize={[16, 20]} />}
-            >
-              Criar novo usuário
-            </Button>
+            <Link href="/users/create" passHref>
+              <Button
+                as="a"
+                href="#"
+                size="sm"
+                fontSize={["xs", "sm"]}
+                colorScheme="pink"
+                leftIcon={<Icon as={RiAddLine} fontSize={[16, 20]} />}
+              >
+                Criar novo usuário
+              </Button>
+            </Link>
           </Flex>
 
           <Table colorScheme="whiteAlpha">
