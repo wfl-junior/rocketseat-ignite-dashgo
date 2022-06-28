@@ -1,25 +1,43 @@
-import { Box, Stack } from "@chakra-ui/react";
 import {
-  RiContactsLine,
-  RiDashboardLine,
-  RiGitMergeLine,
-  RiInputMethodLine,
-} from "react-icons/ri";
-import { NavLink } from "./NavLink";
-import { NavSection } from "./NavSection";
+  Box,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  useBreakpointValue,
+} from "@chakra-ui/react";
+import { useSidebarDrawerContext } from "../../contexts/SidebarDrawerContext";
+import { SidebarNav } from "./SidebarNav";
 
-export const Sidebar: React.FC = () => (
-  <Box as="aside" w={64} mr={8}>
-    <Stack spacing={12} align="flex-start">
-      <NavSection title="Geral">
-        <NavLink icon={RiDashboardLine}>Dashboard</NavLink>
-        <NavLink icon={RiContactsLine}>Usuários</NavLink>
-      </NavSection>
+export const Sidebar: React.FC = () => {
+  const { isOpen, onClose } = useSidebarDrawerContext();
+  const isDrawerSidebar = useBreakpointValue({
+    base: true,
+    lg: false,
+  });
 
-      <NavSection title="Automação">
-        <NavLink icon={RiInputMethodLine}>Formulários</NavLink>
-        <NavLink icon={RiGitMergeLine}>Automação</NavLink>
-      </NavSection>
-    </Stack>
-  </Box>
-);
+  if (isDrawerSidebar) {
+    return (
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay>
+          <DrawerContent bgColor="gray.800" p={4}>
+            <DrawerCloseButton mt={6} />
+            <DrawerHeader>Navegação</DrawerHeader>
+
+            <DrawerBody>
+              <SidebarNav />
+            </DrawerBody>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Box as="aside" w={64} mr={8}>
+      <SidebarNav />
+    </Box>
+  );
+};

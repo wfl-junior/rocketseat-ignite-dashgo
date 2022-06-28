@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { Fragment } from "react";
+import { SidebarDrawerContextProvider } from "../contexts/SidebarDrawerContext";
 import { theme } from "../styles/theme";
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => (
@@ -12,7 +13,9 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => (
     </Head>
 
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <SidebarDrawerContextProvider>
+        <Component {...pageProps} />
+      </SidebarDrawerContextProvider>
     </ChakraProvider>
   </Fragment>
 );
