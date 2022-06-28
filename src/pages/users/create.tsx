@@ -48,6 +48,7 @@ const CreateUser: NextPage = () => (
             <Button type="button" colorScheme="whiteAlpha">
               Cancelar
             </Button>
+
             <Button type="submit" colorScheme="pink">
               Salvar
             </Button>
