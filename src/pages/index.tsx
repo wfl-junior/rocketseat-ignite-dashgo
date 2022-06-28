@@ -1,7 +1,9 @@
 import { Button, Flex, Stack } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { NextPage } from "next";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
 import { Input } from "../components/Form/Input";
 
 interface FormValues {
@@ -9,8 +11,21 @@ interface FormValues {
   password: string;
 }
 
+const signInFormSchema = yup.object({
+  email: yup
+    .string()
+    .required("${label} obrigatório")
+    .email("${label} inválido")
+    .label("E-mail"),
+  password: yup.string().required("${label} obrigatória").label("Senha"),
+});
+
 const SignIn: NextPage = () => {
-  const { register, handleSubmit, formState } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<FormValues>({ resolver: yupResolver(signInFormSchema) });
 
   const handleSignIn: SubmitHandler<FormValues> = useCallback(async values => {
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -30,8 +45,19 @@ const SignIn: NextPage = () => {
         onSubmit={handleSubmit(handleSignIn)}
       >
         <Stack spacing={4}>
-          <Input type="email" label="E-mail" {...register("email")} />
-          <Input type="password" label="Senha" {...register("password")} />
+          <Input
+            type="email"
+            label="E-mail"
+            error={errors.email}
+            {...register("email")}
+          />
+
+          <Input
+            type="password"
+            label="Senha"
+            error={errors.password}
+            {...register("password")}
+          />
         </Stack>
 
         <Button
@@ -39,7 +65,7 @@ const SignIn: NextPage = () => {
           mt={6}
           colorScheme="pink"
           size="lg"
-          isLoading={formState.isSubmitting}
+          isLoading={isSubmitting}
         >
           Entrar
         </Button>
