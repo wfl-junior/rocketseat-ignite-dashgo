@@ -14,7 +14,7 @@ export const ActiveLink: React.FC<ActiveLinkProps> = ({
 }) => {
   const { asPath } = useRouter();
   const isActive = shouldMatchExactHref
-    ? asPath === props.href.toString() || asPath === props.as?.toString()
+    ? asPath === props.href.toString() || asPath === String(props.as)
     : asPath.startsWith(props.href.toString()) ||
       asPath.startsWith(String(props.as));
 

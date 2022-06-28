@@ -16,7 +16,8 @@
     "incremental": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "noImplicitAny": true
   },
   "include": ["next-env.d.ts", "src"],
   "exclude": ["node_modules"]
