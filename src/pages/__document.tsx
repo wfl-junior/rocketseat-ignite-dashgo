@@ -14,6 +14,8 @@ const Document: NextPage = () => (
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet"
       />
+
+      <meta name="author" content="Wallace Júnior | wflj1997@gmail.com" />
     </Head>
 
     <body>
