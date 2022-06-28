@@ -71,7 +71,7 @@ const Dashboard: NextPage = () => (
       <Sidebar />
 
       <SimpleGrid flex={1} gap={4} minChildWidth={320} alignItems="start">
-        <Box p={8} bgColor="gray.800" borderRadius={8} pb={4}>
+        <Box p={[6, 8]} bgColor="gray.800" borderRadius={8} pb={4}>
           <Text fontSize="lg" mb={4}>
             Inscritos da semana
           </Text>
@@ -84,7 +84,7 @@ const Dashboard: NextPage = () => (
           />
         </Box>
 
-        <Box p={8} bgColor="gray.800" borderRadius={8} pb={4}>
+        <Box p={[6, 8]} bgColor="gray.800" borderRadius={8} pb={4}>
           <Text fontSize="lg" mb={4}>
             Taxa de abertura
           </Text>
