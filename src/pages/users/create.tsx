@@ -20,20 +20,20 @@ const CreateUser: NextPage = () => (
     <Flex w="100%" my={6} maxW={1480} mx="auto" px={6}>
       <Sidebar />
 
-      <Box flex={1} borderRadius={8} bgColor="gray.800" p={8}>
+      <Box flex={1} borderRadius={8} bgColor="gray.800" p={[6, 8]}>
         <Heading size="lg" fontWeight="normal">
           Criar usuário
         </Heading>
 
-        <Divider my={6} borderColor="gray.700" />
+        <Divider my={[4, 6]} borderColor="gray.700" />
 
-        <VStack spacing={8}>
-          <SimpleGrid spacing={8} minChildWidth="240px" w="100%">
+        <VStack spacing={[6, 8]}>
+          <SimpleGrid spacing={[6, 8]} minChildWidth="240px" w="100%">
             <Input type="text" name="name" label="Nome completo" />
             <Input type="email" name="email" label="E-mail" />
           </SimpleGrid>
 
-          <SimpleGrid spacing={8} minChildWidth="240px" w="100%">
+          <SimpleGrid spacing={[6, 8]} minChildWidth="240px" w="100%">
             <Input type="password" name="password" label="Senha" />
             <Input
               type="password"
@@ -43,7 +43,7 @@ const CreateUser: NextPage = () => (
           </SimpleGrid>
         </VStack>
 
-        <Flex mt={8} justify="flex-end">
+        <Flex mt={[6, 8]} justify="flex-end">
           <HStack spacing={4}>
             <Button type="button" colorScheme="whiteAlpha">
               Cancelar
