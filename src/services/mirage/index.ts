@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { createServer, Factory, Model } from "miragejs";
+import { createServer, Factory, Model, Response } from "miragejs";
 import { User } from "../../@types/api";
 
 export function makeServer() {
@@ -27,7 +27,20 @@ export function makeServer() {
       this.namespace = "api";
       this.timing = 750;
 
-      this.get("/users");
+      this.get("/users", (schema, request) => {
+        const { page = 1, per_page = 10 } = request.queryParams || {};
+
+        const users = schema.all("user").models;
+        const total = users.length;
+        const offset = (Number(page) - 1) * Number(per_page);
+
+        return new Response(
+          200,
+          { "x-total-count": total.toString() },
+          { users: users.slice(offset, offset + per_page) },
+        );
+      });
+
       this.post("/users");
 
       this.namespace = "";

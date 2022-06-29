@@ -88,7 +88,7 @@ const Users: NextPage = () => {
                 </Thead>
 
                 <Tbody>
-                  {users?.slice(0, 10).map(user => (
+                  {users?.map(user => (
                     <Tr key={user.email}>
                       <Td px={[4, 6]}>
                         <Checkbox colorScheme="pink" />
