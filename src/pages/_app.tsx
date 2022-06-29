@@ -4,6 +4,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { Fragment } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { SidebarDrawerContextProvider } from "../contexts/SidebarDrawerContext";
 import { makeServer } from "../services/mirage";
 import { theme } from "../styles/theme";
@@ -26,6 +27,8 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => (
           <Component {...pageProps} />
         </SidebarDrawerContextProvider>
       </ChakraProvider>
+
+      <ReactQueryDevtools />
     </QueryClientProvider>
   </Fragment>
 );

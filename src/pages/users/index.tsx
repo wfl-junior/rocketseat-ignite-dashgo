@@ -30,21 +30,27 @@ const Users: NextPage = () => {
     data: users,
     isLoading,
     isError,
-  } = useQuery<User[]>("users", async () => {
-    const response = await fetch("/api/users");
-    const data = (await response.json()) as { users: User[] };
+  } = useQuery<User[]>(
+    "users",
+    async () => {
+      const response = await fetch("/api/users");
+      const data = (await response.json()) as { users: User[] };
 
-    return data.users.map(user => ({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      }),
-    }));
-  });
+      return data.users.map(user => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }),
+      }));
+    },
+    {
+      staleTime: 1000 * 5, // 5 seconds
+    },
+  );
 
   const isMediumBreakpoint = useBreakpointValue({
     base: false,
@@ -104,7 +110,7 @@ const Users: NextPage = () => {
                 </Thead>
 
                 <Tbody>
-                  {users?.map(user => (
+                  {users?.slice(0, 10).map(user => (
                     <Tr key={user.email}>
                       <Td px={[4, 6]}>
                         <Checkbox colorScheme="pink" />
