@@ -1,11 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { createServer, Factory, Model } from "miragejs";
-
-interface User {
-  name: string;
-  email: string;
-  created_at: string;
-}
+import { User } from "../../@types/api";
 
 export function makeServer() {
   return createServer({

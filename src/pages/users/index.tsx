@@ -20,14 +20,30 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { useQuery } from "react-query";
+import { User } from "../../@types/api";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
 const Users: NextPage = () => {
-  const { isLoading, isError } = useQuery("users", async () => {
+  const {
+    data: users,
+    isLoading,
+    isError,
+  } = useQuery<User[]>("users", async () => {
     const response = await fetch("/api/users");
-    return response.json();
+    const data = (await response.json()) as { users: User[] };
+
+    return data.users.map(user => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }),
+    }));
   });
 
   const isMediumBreakpoint = useBreakpointValue({
@@ -88,23 +104,23 @@ const Users: NextPage = () => {
                 </Thead>
 
                 <Tbody>
-                  {Array.from({ length: 3 }, (_, i) => i).map(number => (
-                    <Tr key={number}>
+                  {users?.map(user => (
+                    <Tr key={user.email}>
                       <Td px={[4, 6]}>
                         <Checkbox colorScheme="pink" />
                       </Td>
 
                       <Td>
                         <Box>
-                          <Text fontWeight="bold">Wallace Júnior</Text>
+                          <Text fontWeight="bold">{user.name}</Text>
 
                           <Text fontSize="sm" color="gray.300">
-                            wflj1997@gmail.com
+                            {user.email}
                           </Text>
                         </Box>
                       </Td>
 
-                      {isMediumBreakpoint && <Td>28 de Junho, 2022</Td>}
+                      {isMediumBreakpoint && <Td>{user.createdAt}</Td>}
 
                       {isMediumBreakpoint && (
                         <Td>
