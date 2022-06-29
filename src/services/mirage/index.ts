@@ -1,16 +1,26 @@
 import { faker } from "@faker-js/faker";
-import { createServer, Factory, Model, Response } from "miragejs";
+import {
+  ActiveModelSerializer,
+  createServer,
+  Factory,
+  Model,
+  Response,
+} from "miragejs";
 import { User } from "../../@types/api";
 
 export function makeServer() {
   return createServer({
+    serializers: {
+      application: ActiveModelSerializer,
+    },
     models: {
       user: Model.extend<Partial<User>>({}),
     },
     factories: {
       user: Factory.extend({
-        name(index) {
-          return `User ${index + 1}`;
+        name() {
+          const { name } = faker;
+          return `${name.firstName()} ${name.lastName()}`;
         },
         email() {
           return faker.internet.email().toLowerCase();
@@ -31,6 +41,18 @@ export function makeServer() {
         const { page = 1, per_page = 10 } = request.queryParams || {};
 
         const users = schema.all("user").models;
+        users.sort((a, b) => {
+          if (a.createdAt.getTime() === b.createdAt.getTime()) {
+            return 0;
+          }
+
+          if (a.createdAt.getTime() < b.createdAt.getTime()) {
+            return 1;
+          }
+
+          return -1;
+        });
+
         const total = users.length;
         const offset = (Number(page) - 1) * Number(per_page);
 
@@ -42,7 +64,14 @@ export function makeServer() {
       });
 
       this.get("/users/:id");
-      this.post("/users");
+
+      this.post("/users", (schema, request) => {
+        const { user } = JSON.parse(request.requestBody);
+        return schema.create("user", {
+          ...user,
+          createdAt: new Date(),
+        });
+      });
 
       this.namespace = "";
       this.passthrough();

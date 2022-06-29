@@ -107,7 +107,7 @@ const Users: NextPage = () => {
 
                 <Tbody>
                   {data?.users.map(user => (
-                    <Tr key={user.email}>
+                    <Tr key={user.id}>
                       <Td px={[4, 6]}>
                         <Checkbox colorScheme="pink" />
                       </Td>
