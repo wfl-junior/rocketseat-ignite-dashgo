@@ -30,6 +30,7 @@ const Users: NextPage = () => {
     data: users,
     isLoading,
     isError,
+    isFetching,
   } = useQuery<User[]>(
     "users",
     async () => {
@@ -68,6 +69,9 @@ const Users: NextPage = () => {
           <Flex mb={8} justify="space-between" align="center">
             <Heading size={["md", "lg"]} fontWeight="normal">
               Usuários
+              {!isLoading && isFetching && (
+                <Spinner size="sm" color="gray.500" ml={4} />
+              )}
             </Heading>
 
             <Link href="/users/create" passHref>
