@@ -2,7 +2,7 @@ import { Box, HStack, Stack, Text } from "@chakra-ui/react";
 import { PaginationItem } from "./PaginationItem";
 
 interface PaginationProps {
-  total: number;
+  totalCount: number;
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
@@ -15,12 +15,12 @@ function generatePagesArray(from: number, to: number) {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
-  total,
+  totalCount,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const lastPage = Math.ceil(total / perPage);
+  const lastPage = Math.ceil(totalCount / perPage);
 
   let firstPageLink = currentPage - siblingsCount;
   let lastPageLink = currentPage + siblingsCount;
@@ -48,11 +48,13 @@ export const Pagination: React.FC<PaginationProps> = ({
       <Box>
         <Text as="strong">{(currentPage - 1) * perPage + 1}</Text> -{" "}
         <Text as="strong">{perPage * currentPage}</Text> de{" "}
-        <Text as="strong">{total}</Text>
+        <Text as="strong">{totalCount}</Text>
       </Box>
 
       <HStack spacing={2}>
-        {firstPageLink > 1 && <PaginationItem pageNumber={1} />}
+        {firstPageLink > 1 && (
+          <PaginationItem pageNumber={1} onPageChange={onPageChange} />
+        )}
         {firstPageLink > 2 && (
           <Text as="span" color="gray.300" w={8} textAlign="center">
             ...
@@ -64,6 +66,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             key={page}
             pageNumber={page}
             isActive={page === currentPage}
+            onPageChange={onPageChange}
           />
         ))}
 
@@ -72,7 +75,9 @@ export const Pagination: React.FC<PaginationProps> = ({
             ...
           </Text>
         )}
-        {lastPageLink < lastPage && <PaginationItem pageNumber={lastPage} />}
+        {lastPageLink < lastPage && (
+          <PaginationItem pageNumber={lastPage} onPageChange={onPageChange} />
+        )}
       </HStack>
     </Stack>
   );

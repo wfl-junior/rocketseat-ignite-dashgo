@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
@@ -25,7 +25,8 @@ import { Sidebar } from "../../components/Sidebar";
 import { useUsersQuery } from "../../hooks/useUsersQuery";
 
 const Users: NextPage = () => {
-  const { data: users, isLoading, isError, isFetching } = useUsersQuery();
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isError, isFetching } = useUsersQuery(page);
 
   const isMediumBreakpoint = useBreakpointValue({
     base: false,
@@ -88,7 +89,7 @@ const Users: NextPage = () => {
                 </Thead>
 
                 <Tbody>
-                  {users?.map(user => (
+                  {data?.users.map(user => (
                     <Tr key={user.email}>
                       <Td px={[4, 6]}>
                         <Checkbox colorScheme="pink" />
@@ -126,10 +127,10 @@ const Users: NextPage = () => {
               </Table>
 
               <Pagination
-                total={200}
-                currentPage={5}
+                totalCount={data?.totalCount || 0}
+                currentPage={page}
                 perPage={10}
-                onPageChange={() => {}}
+                onPageChange={setPage}
               />
             </Fragment>
           )}
