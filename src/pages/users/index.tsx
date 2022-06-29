@@ -19,41 +19,13 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
-import { useQuery } from "react-query";
-import { User } from "../../@types/api";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
-import { api } from "../../services/api";
+import { useUsersQuery } from "../../hooks/useUsersQuery";
 
 const Users: NextPage = () => {
-  const {
-    data: users,
-    isLoading,
-    isError,
-    isFetching,
-  } = useQuery<User[]>(
-    "users",
-    async () => {
-      const { data } = await api.get<{ users: User[] }>("/users");
-
-      return data.users.map(
-        (user): User => ({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-          }),
-        }),
-      );
-    },
-    {
-      staleTime: 1000 * 5, // 5 seconds
-    },
-  );
+  const { data: users, isLoading, isError, isFetching } = useUsersQuery();
 
   const isMediumBreakpoint = useBreakpointValue({
     base: false,
