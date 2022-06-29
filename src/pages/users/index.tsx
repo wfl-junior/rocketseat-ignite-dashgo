@@ -24,6 +24,7 @@ import { User } from "../../@types/api";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
+import { api } from "../../services/api";
 
 const Users: NextPage = () => {
   const {
@@ -34,19 +35,20 @@ const Users: NextPage = () => {
   } = useQuery<User[]>(
     "users",
     async () => {
-      const response = await fetch("/api/users");
-      const data = (await response.json()) as { users: User[] };
+      const { data } = await api.get<{ users: User[] }>("/users");
 
-      return data.users.map(user => ({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
+      return data.users.map(
+        (user): User => ({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          }),
         }),
-      }));
+      );
     },
     {
       staleTime: 1000 * 5, // 5 seconds
