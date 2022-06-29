@@ -125,7 +125,12 @@ const Users: NextPage = () => {
                 </Tbody>
               </Table>
 
-              <Pagination />
+              <Pagination
+                total={200}
+                currentPage={5}
+                perPage={10}
+                onPageChange={() => {}}
+              />
             </Fragment>
           )}
         </Box>
